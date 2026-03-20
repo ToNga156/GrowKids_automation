@@ -10,8 +10,12 @@ import io.appium.java_client.remote.options.BaseOptions;
 
 import java.net.URL;
 import java.time.Duration;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class DriverManager {
+
+    private static final Dotenv dotenv = Dotenv.load();
+    private static final String KOBITON_APIKEY = dotenv.get("KOBITON_APIKEY");
 
     private static final ThreadLocal<AppiumDriver> driver = new ThreadLocal<>();
 

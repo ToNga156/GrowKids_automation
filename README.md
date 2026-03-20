@@ -1,8 +1,8 @@
 # Growkids Mobile Automation Framework
 
-Framework automation mobile sử dụng **Java**, **Appium**, **TestNG**, **Maven** và **Page Object Model**.
+This is a mobile automation testing framework built using **Java**, **Appium**, **TestNG**, **Maven**, and the **Page Object Model (POM)** design pattern.
 
-## Cấu trúc dự án
+## Project Structure
 
 ```
 growkids-auto/
@@ -18,42 +18,46 @@ growkids-auto/
 │       └── testng.xml
 ```
 
-## Yêu cầu
+## Prerequisites
+
+Make sure you have the following installed:
 
 - Java 11+
 - Maven 3.6+
 - Appium Server 2.x
 - Android SDK / Xcode (cho iOS)
 
-## Cài đặt
+## Setup & Installation
 
-1. Khởi chạy Appium Server: `appium`
-2. Cập nhật `config.properties` với thông tin app và thiết bị
-3. Chạy test: `mvn clean test`
+1. Start the Appium server: `appium`
+2. Update the configuration file: `config.properties`
+3. Run the tests: `mvn clean test`
 
-## Cấu hình
+## Configuration
 
-Chỉnh sửa `src/test/resources/config.properties`:
+Edit the file: `src/test/resources/config.properties`:
 
 ### Kobiton Cloud (kobiton.enabled=true)
 - `kobiton.username`: Username Kobiton
 - `kobiton.apiKey`: API Key từ portal.kobiton.com
 - `kobiton.app`: App từ Kobiton Store (vd: `kobiton-store:754789`)
-- `kobiton.device.name`: Tên thiết bị (`*` = bất kỳ)
+- `kobiton.device.name`: Device name (* for any available device)
 
 ### Local Appium (kobiton.enabled=false)
 - `appium.url`: URL Appium server
-- `platform.name`: android hoặc ios
-- `android.app.package`, `android.app.activity`: cho app đã cài
-- `android.app.path`: đường dẫn file .apk (nếu cài mới mỗi lần chạy)
+- `platform.name`: android or ios
+- `android.app.package`, `android.app.activity`: For installed apps
+- `android.app.path`: Path to .apk file (if installing during test execution)
 
-## Chạy test
+## Running Tests
+
+Run all tests:
 
 ```bash
 mvn clean test
 ```
 
-Chạy với suite cụ thể:
+Run with a specific TestNG suite:
 
 ```bash
 mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml
