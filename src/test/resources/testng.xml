@@ -6,4 +6,10 @@
             <class name="com.growkids.tests.LoginTest"/>
         </classes>
     </test>
+
+    <test name="Register Tests">
+        <classes>
+            <class name="com.growkids.tests.RegisterTest"/>
+        </classes>
+    </test>
 </suite>

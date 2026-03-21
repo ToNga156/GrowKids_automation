@@ -1,28 +1,31 @@
 package com.growkids.pages;
 
+import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
 
-    private static final By EMAIL_FIELD = By.id("com.growkids:id/email");
-    private static final By PASSWORD_FIELD = By.id("com.growkids:id/password");
-    private static final By LOGIN_BUTTON = By.id("com.growkids:id/loginButton");
-    private static final By ERROR_MESSAGE = By.id("com.growkids:id/errorMessage");
+    private AppiumDriver driver;
 
-    public LoginPage() {
-        super();
+    public LoginPage(AppiumDriver driver) {
+        this.driver = driver;
     }
 
+    private By title = By.xpath("//android.widget.TextView[@text='Sign in']");
+    private By emailField = By.xpath("//android.widget.EditText[@text='Your email']");
+    private By passwordField = By.xpath("//android.widget.EditText[@text='Your password']");
+    private By loginBtn = By.xpath("//android.widget.Button[@text='Sign in']");
+
     public void enterEmail(String email) {
-        sendKeys(EMAIL_FIELD, email);
+        driver.findElement(emailField).sendKeys(email);
     }
 
     public void enterPassword(String password) {
-        sendKeys(PASSWORD_FIELD, password);
+        driver.findElement(passwordField).sendKeys(password);
     }
 
     public void clickLogin() {
-        click(LOGIN_BUTTON);
+        driver.findElement(loginBtn).click();
     }
 
     public void login(String email, String password) {
@@ -31,11 +34,15 @@ public class LoginPage extends BasePage {
         clickLogin();
     }
 
-    public String getErrorMessage() {
-        return getText(ERROR_MESSAGE);
+    public boolean isLoginPageDisplayed() {
+        return driver.findElement(title).isDisplayed();
     }
 
-    public boolean isLoginButtonDisplayed() {
-        return isDisplayed(LOGIN_BUTTON);
+    public boolean isLoginSuccess() {
+        return driver.getPageSource().contains("Home");
+    }
+
+    public boolean isErrorDisplayed(String errorMsg) {
+        return driver.getPageSource().contains(errorMsg);
     }
 }

@@ -1,39 +1,53 @@
 package com.growkids.tests;
 
 import com.growkids.base.BaseTest;
-import com.growkids.pages.HomePage;
+import com.growkids.base.DriverManager;
 import com.growkids.pages.LoginPage;
-import com.growkids.utils.ConfigReader;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * Login test cases.
- */
 public class LoginTest extends BaseTest {
 
-    @Test(description = "Verify successful login with valid credentials")
-    public void testSuccessfulLogin() {
-        LoginPage loginPage = new LoginPage();
-        String email = ConfigReader.getProperty("test.email", "H@gmail.com");
-        String password = ConfigReader.getProperty("test.password", "12345678");
+    private LoginPage loginPage;
 
-        loginPage.login(email, password);
-
-        HomePage homePage = new HomePage();
-        Assert.assertTrue(homePage.isHomePageDisplayed(), "Homepage should be displayed after login");
+    @BeforeMethod
+    public void setupPage() {
+        // BaseTest đã init driver ở @BeforeMethod, lấy driver theo ThreadLocal để tránh null
+        loginPage = new LoginPage(DriverManager.getDriver());
     }
 
-    @Test(description = "Verify login page elements are displayed")
-    public void testLoginPageDisplayed() {
-        LoginPage loginPage = new LoginPage();
-        Assert.assertTrue(loginPage.isLoginButtonDisplayed(), "Login button should be visible");
+    @Test (description = "Verify successful login with valid credentials")
+    public void testLoginSuccess() {
+        loginPage.login("test@gmail.com", "123456");
+
+        Assert.assertTrue(loginPage.isLoginSuccess(), "User should login successfully and navigate to Home");
     }
 
-    @Test(description = "Verify login fails with invalid credentials")
-    public void testInvalidLogin() {
-        LoginPage loginPage = new LoginPage();
-        loginPage.login("invaliduser", "wrongpassword");
-        Assert.assertTrue(loginPage.isLoginButtonDisplayed(), "Login page should still be visible");
+    @Test (description = "Verify login fails with empty email")
+    public void testLogin_EmptyEmail() {
+        loginPage.enterEmail("");
+        loginPage.enterPassword("123456");
+        loginPage.clickLogin();
+
+        Assert.assertTrue(loginPage.isErrorDisplayed("Email is required"), "Error message should be displayed for empty email");
+    }
+
+    @Test (description = "Verify login fails with empty password")
+    public void testLogin_EmptyPassword() {
+        loginPage.enterEmail("test@gmail.com");
+        loginPage.enterPassword("");
+        loginPage.clickLogin();
+
+        Assert.assertTrue(loginPage.isErrorDisplayed("Password is required"), "Error message should be displayed for empty password");
+    }
+
+    @Test (description = "Verify login fails with invalid email format")
+    public void testLogin_InvalidEmail() {
+        loginPage.enterEmail("invalid-email");
+        loginPage.enterPassword("123456");
+        loginPage.clickLogin();
+
+        Assert.assertTrue(loginPage.isErrorDisplayed("Invalid email"), "Error message should be displayed for invalid email");
     }
 }
