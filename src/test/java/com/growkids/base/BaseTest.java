@@ -10,8 +10,9 @@ public class BaseTest {
         DriverManager.initDriver();
     }
 
-    @AfterMethod
-    public void tearDown() {
+    @AfterMethod(alwaysRun = true)
+    public void tearDown() throws InterruptedException {
         DriverManager.quitDriver();
+        Thread.sleep(3000);
     }
 }
