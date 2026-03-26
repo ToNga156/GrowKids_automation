@@ -1,41 +1,50 @@
 package com.growkids.pages;
 
-import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 
 public class RegisterPage extends BasePage {
-    private AppiumDriver driver;
 
-    public RegisterPage(AppiumDriver driver) {
-        this.driver = driver;
-    }
+    private By nameField = By.xpath("//android.widget.EditText[@text='Your name']");
+    private By emailField = By.xpath("//android.widget.EditText[@text='Your email']");
+    private By passwordField = By.xpath("//android.widget.EditText[@text='Your password']");
+    private By registerButton = By.xpath("(//android.widget.TextView[@text='Sign up'])[2]");
 
-    private By usernameField = By.xpath("(//android.widget.EditText)[1]");
-    private By emailField = By.xpath("(//android.widget.EditText)[2]");
-    private By passwordField = By.xpath("(//android.widget.EditText)[3]");
-    private By signupBtn = By.xpath("//android.widget.Button[@text='Sign up']");
+    private By nameError = By.xpath("//android.widget.TextView[contains(@text,'Name is required')]");
+    private By emailError = By.xpath("//android.widget.TextView[contains(@text,'Email is not valid')]");
+    private By passwordError = By.xpath("//android.widget.TextView[contains(@text,'Password must')]");
 
-    public void enterUsername(String username) {
-        driver.findElement(usernameField).sendKeys(username);
+    public void enterName(String name) {
+        sendKeys(nameField, name);
     }
 
     public void enterEmail(String email) {
-        driver.findElement(emailField).sendKeys(email);
+        sendKeys(emailField, email);
     }
 
     public void enterPassword(String password) {
-        driver.findElement(passwordField).sendKeys(password);
+        sendKeys(passwordField, password);
     }
 
-    public void clickSignup() {
-        driver.findElement(signupBtn).click();
+    public void clickRegister() {
+        click(registerButton);
     }
 
-    public boolean isRegisterSuccess() {
-        return isDisplayed(By.xpath("//android.widget.TextView[@text='REGISTER SUCCESFULLY']"));
+    public void register(String name, String email, String password) {
+        if (name != null) enterName(name);
+        if (email != null) enterEmail(email);
+        if (password != null) enterPassword(password);
+        clickRegister();
     }
 
-    public boolean isLoginPageDisplayed() {
-        return isDisplayed(By.xpath("//android.widget.Button[@text='Sign in']"));
+        public boolean isNameErrorDisplayed() {
+        return isDisplayed(nameError);
+    }
+
+    public boolean isEmailErrorDisplayed() {
+        return isDisplayed(emailError);
+    }
+
+    public boolean isPasswordErrorDisplayed() {
+        return isDisplayed(passwordError);
     }
 }

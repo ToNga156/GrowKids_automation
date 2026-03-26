@@ -1,59 +1,31 @@
 package com.growkids.pages;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import java.time.Duration;
 
 public class LoginPage extends BasePage {
-
-    private AppiumDriver driver;
-
-    public LoginPage(AppiumDriver driver) {
-        this.driver = driver;
-    }
-
-    private By title = By.xpath("//android.widget.TextView[@text='Sign in']");
-    private By emailField = By.xpath("//android.widget.EditText[@hint='Your email']");
-    private By passwordField = By.xpath("//android.widget.EditText[@hint='Your password']");
-    private By loginBtn = AppiumBy.accessibilityId("Sign in");
-    private By homeTitle = By.xpath("//android.widget.TextView[@text='Bilingual Learning  with your child']");
+    private By loginTitle = By.xpath("(//android.widget.TextView[@text='Sign in'])[1]");
+    private By emailField = By.xpath("//android.widget.EditText[@text='Your email']");
+    private By passwordField = By.xpath("//android.widget.EditText[@text='Your password']");
+    private By loginButton = By.xpath("(//android.widget.TextView[@text='Sign in'])[2]");
+    private By registerLink = By.xpath("//android.widget.TextView[contains(@text,'Sign up')]");
 
     public void enterEmail(String email) {
-        driver.findElement(emailField).sendKeys(email);
+        sendKeys(emailField, email);
     }
 
     public void enterPassword(String password) {
-        driver.findElement(passwordField).sendKeys(password);
+        sendKeys(passwordField, password);
     }
 
     public void clickLogin() {
-        driver.findElement(loginBtn).click();
+        click(loginButton);
     }
 
-    public void login(String email, String password) {
-        enterEmail(email);
-        enterPassword(password);
-        clickLogin();
+    public void goToRegister() {
+        click(registerLink);
     }
 
     public boolean isLoginPageDisplayed() {
-        return driver.findElement(title).isDisplayed();
-    }
-
-    public boolean isLoginSuccess() {
-        try {
-            return new WebDriverWait(driver, Duration.ofSeconds(10))
-                    .until(ExpectedConditions.visibilityOfElementLocated(homeTitle))
-                    .isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public boolean isErrorDisplayed(String errorMsg) {
-        return driver.getPageSource().contains(errorMsg);
+        return isDisplayed(loginTitle);
     }
 }

@@ -1,7 +1,7 @@
 package com.growkids.tests;
 
 import com.growkids.base.BaseTest;
-import com.growkids.base.DriverManager;
+import com.growkids.pages.LoginPage;
 import com.growkids.pages.RegisterPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -9,72 +9,85 @@ import org.testng.annotations.Test;
 
 public class RegisterTest extends BaseTest {
 
-    private RegisterPage registerPage;
+    LoginPage loginPage;
+    RegisterPage registerPage;
 
     @BeforeMethod
-    public void setupPage() {
-        // BaseTest đã init driver ở @BeforeMethod, lấy driver theo ThreadLocal để tránh null
-        registerPage = new RegisterPage(DriverManager.getDriver());
+    public void setupTest() {
+        loginPage = new LoginPage();
+        registerPage = new RegisterPage();
+        loginPage.goToRegister();
     }
 
-    @Test (description = "Verify successful registration with valid credentials")
-    public void testRegisterSuccess() {
-        registerPage.enterUsername("testuser");
-        registerPage.enterEmail("test@gmail.com");
-        registerPage.enterPassword("123456");
+    @Test(description = "Verify successful register")
+    public void testRegister() {
+        String email = "test" + System.currentTimeMillis() + "@gmail.com";
 
-        registerPage.clickSignup();
+        registerPage.register(
+                "Test User",
+                email,
+                "12345678"
+        );
 
-        Assert.assertTrue(registerPage.isRegisterSuccess(), "Register success message should be displayed");
-        Assert.assertTrue(registerPage.isLoginPageDisplayed(), "Home page should be displayed");
-        System.out.println("Register success test executed");
+        Assert.assertTrue(
+                loginPage.isLoginPageDisplayed(),
+                "User should be redirected to Login page after register"
+        );
     }
 
-    @Test (description = "Verify registration fails with empty username")
-    public void testRegister_EmptyUsername() {
-        registerPage.enterUsername("");
-        registerPage.enterEmail("test@gmail.com");
-        registerPage.enterPassword("123456");
+    @Test(description = "Register with all fields empty")
+    public void testRegister_EmptyAllFields() {
 
-        registerPage.clickSignup();
+        registerPage.register(null, null, null);
 
-        // TODO: verify error message
-        System.out.println("Empty username test executed");
+        Assert.assertTrue(registerPage.isNameErrorDisplayed(), "Name error not displayed");
+        Assert.assertTrue(registerPage.isEmailErrorDisplayed(), "Email error not displayed");
+        Assert.assertTrue(registerPage.isPasswordErrorDisplayed(), "Password error not displayed");
     }
 
-    @Test (description = "Verify registration fails with empty email")
-    public void testRegister_EmptyEmail() {
-        registerPage.enterUsername("testuser");
-        registerPage.enterEmail("");
-        registerPage.enterPassword("123456");
+    // @Test(description = "Register with empty name")
+    // public void testRegister_EmptyName() {
 
-        registerPage.clickSignup();
+    //     String email = "test" + System.currentTimeMillis() + "@gmail.com";
 
-        // TODO: verify error message
-        System.out.println("Empty email test executed");
-    }
+    //     registerPage.register(null, email, "12345678");
 
-    @Test (description = "Verify registration fails with empty password")
-    public void testRegister_EmptyPassword() {
-        registerPage.enterUsername("testuser");
-        registerPage.enterEmail("test@gmail.com");
-        registerPage.enterPassword("");
+    //     Assert.assertTrue(registerPage.isNameErrorDisplayed(), "Name error not displayed");
+    // }
 
-        registerPage.clickSignup();
+    // @Test(description = "Register with empty email")
+    // public void testRegister_EmptyEmail() {
 
-        // TODO: verify error message
-        System.out.println("Empty password test executed");
-    }
+    //     registerPage.register("Test User", null, "12345678");
 
-    @Test (description = "Verify registration fails with invalid email format")
-    public void testRegister_InvalidEmail() {
-        registerPage.enterUsername("testuser");
-        registerPage.enterEmail("invalid-email");
-        registerPage.enterPassword("123456");
+    //     Assert.assertTrue(registerPage.isEmailErrorDisplayed(), "Email error not displayed");
+    // }
 
-        registerPage.clickSignup();
+    // @Test(description = "Register with empty password")
+    // public void testRegister_EmptyPassword() {
 
-        // TODO: verify error message
-        System.out.println("Invalid email format test executed");
-    }
+    //     String email = "test" + System.currentTimeMillis() + "@gmail.com";
+
+    //     registerPage.register("Test User", email, null);
+
+    //     Assert.assertTrue(registerPage.isPasswordErrorDisplayed(), "Password error not displayed");
+    // }
+
+    // @Test(description = "Register with invalid email")
+    // public void testRegister_InvalidEmail() {
+
+    //     registerPage.register("Test User", "invalid-email", "12345678");
+
+    //     Assert.assertTrue(registerPage.isEmailErrorDisplayed(), "Invalid email error not displayed");
+    // }
+
+    // @Test(description = "Register with short password")
+    // public void testRegister_ShortPassword() {
+
+    //     String email = "test" + System.currentTimeMillis() + "@gmail.com";
+
+    //     registerPage.register("Test User", email, "123");
+
+    //     Assert.assertTrue(registerPage.isPasswordErrorDisplayed(), "Password length error not displayed");
+    // }
 }

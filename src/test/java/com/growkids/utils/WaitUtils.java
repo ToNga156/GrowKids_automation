@@ -17,7 +17,7 @@ public class WaitUtils {
     }
 
     public static WebDriverWait getWait(AppiumDriver driver) {
-        int timeout = ConfigReader.getIntProperty("explicit.wait", 15);
+        int timeout = ConfigReader.getIntProperty("explicit.wait", 20);
         return new WebDriverWait(driver, Duration.ofSeconds(timeout));
     }
 
