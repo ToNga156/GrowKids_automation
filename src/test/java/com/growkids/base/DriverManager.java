@@ -42,7 +42,7 @@ public class DriverManager {
                 appiumDriver = new AndroidDriver(serverUrl, options);
             }
 
-            int implicitWait = ConfigReader.getIntProperty("implicit.wait", 10); // seconds
+            int implicitWait = ConfigReader.getIntProperty("implicit.wait", 10);
             appiumDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitWait));
 
             driver.set(appiumDriver);
