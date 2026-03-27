@@ -1,9 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Growkids Mobile Automation Suite" verbose="1">
-    <test name="Login Tests">
+<suite name="GrowKids Test Suite">
+
+    <!-- <test name="Register Test">
+        <classes>
+            <class name="com.growkids.tests.RegisterTest"/>
+        </classes>
+    </test>
+
+    <test name="Login Test">
         <classes>
             <class name="com.growkids.tests.LoginTest"/>
         </classes>
+    </test> -->
+
+    <test name="Set up Schedule Test">
+        <classes>
+            <class name="com.growkids.tests.SetupScheduleTest"/>
+        </classes>
     </test>
+
 </suite>

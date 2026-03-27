@@ -1,47 +1,50 @@
 package com.growkids.pages;
 
 import com.growkids.base.DriverManager;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import java.time.Duration;
+import java.util.List;
 import org.openqa.selenium.WebElement;
 import com.growkids.utils.WaitUtils;
 
-/**
- * Base page class - common functionality for all page objects.
- */
-public abstract class BasePage {
+public class BasePage {
 
     protected AppiumDriver driver;
+    private static final long DEFAULT_WAIT_SECONDS = 20;
 
-    protected BasePage() {
+    public BasePage() {
         this.driver = DriverManager.getDriver();
     }
 
-    protected WebElement waitAndFind(By locator) {
-        return WaitUtils.waitForElementVisible(driver, locator);
-    }
-
-    protected WebElement waitAndClick(By locator) {
-        return WaitUtils.waitForElementClickable(driver, locator);
-    }
-
     protected void click(By locator) {
-        waitAndClick(locator).click();
+        new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_WAIT_SECONDS))
+            .until(ExpectedConditions.elementToBeClickable(locator))
+            .click();
     }
 
     protected void sendKeys(By locator, String text) {
-        waitAndFind(locator).sendKeys(text);
+        new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_WAIT_SECONDS))
+            .until(ExpectedConditions.visibilityOfElementLocated(locator))
+            .sendKeys(text);
     }
 
     protected String getText(By locator) {
-        return waitAndFind(locator).getText();
+        return new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_WAIT_SECONDS))
+            .until(ExpectedConditions.visibilityOfElementLocated(locator))
+            .getText();
+    }
+
+    protected List<WebElement> findElements(By locator) {
+        return WaitUtils.waitForElementsVisible(driver, locator);
     }
 
     protected boolean isDisplayed(By locator) {
-        try {
-            return waitAndFind(locator).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+        return new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_WAIT_SECONDS))
+                .until(ExpectedConditions.visibilityOfElementLocated(locator))
+                .isDisplayed();
     }
 }

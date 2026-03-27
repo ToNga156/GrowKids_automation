@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 /**
  * Utility class for explicit waits.
@@ -17,7 +18,7 @@ public class WaitUtils {
     }
 
     public static WebDriverWait getWait(AppiumDriver driver) {
-        int timeout = ConfigReader.getIntProperty("explicit.wait", 15);
+        int timeout = ConfigReader.getIntProperty("explicit.wait", 20);
         return new WebDriverWait(driver, Duration.ofSeconds(timeout));
     }
 
@@ -35,5 +36,10 @@ public class WaitUtils {
 
     public static WebElement waitForElementPresent(AppiumDriver driver, By locator) {
         return getWait(driver).until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+
+    public static List<WebElement> waitForElementsVisible(AppiumDriver driver, By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
 }
