@@ -19,23 +19,16 @@ public class RegisterTest extends BaseTest {
         loginPage.goToRegister();
     }
 
-    @Test(description = "Verify successful register")
+    @Test(description = "TC_REGISTER_001: Verify successful register")
     public void testRegister() {
         String email = "test" + System.currentTimeMillis() + "@gmail.com";
 
-        registerPage.register(
-                "Test User",
-                email,
-                "12345678"
-        );
+        registerPage.register("Test User", email, "12345678");
 
-        Assert.assertTrue(
-                loginPage.isLoginPageDisplayed(),
-                "User should be redirected to Login page after register"
-        );
+        Assert.assertTrue(loginPage.isLoginPageDisplayed(), "User should be redirected to Login page after register");
     }
 
-    @Test(description = "Register with all fields empty")
+    @Test(description = "TC_REGISTER_002: Register with all fields empty")
     public void testRegister_EmptyAllFields() {
 
         registerPage.register(null, null, null);
@@ -45,49 +38,39 @@ public class RegisterTest extends BaseTest {
         Assert.assertTrue(registerPage.isPasswordErrorDisplayed(), "Password error not displayed");
     }
 
-    // @Test(description = "Register with empty name")
-    // public void testRegister_EmptyName() {
+    @Test(description = "TC_REGISTER_003: Register with empty name")
+    public void testRegister_EmptyName() {
 
-    //     String email = "test" + System.currentTimeMillis() + "@gmail.com";
+        String email = "test" + System.currentTimeMillis() + "@gmail.com";
 
-    //     registerPage.register(null, email, "12345678");
+        registerPage.register(null, email, "12345678");
 
-    //     Assert.assertTrue(registerPage.isNameErrorDisplayed(), "Name error not displayed");
-    // }
+        Assert.assertTrue(registerPage.isNameErrorDisplayed(), "Name error not displayed");
+    }
 
-    // @Test(description = "Register with empty email")
-    // public void testRegister_EmptyEmail() {
+    @Test(description = "TC_REGISTER_004: Register with empty email")
+    public void testRegister_EmptyEmail() {
 
-    //     registerPage.register("Test User", null, "12345678");
+        registerPage.register("Test User", null, "12345678");
 
-    //     Assert.assertTrue(registerPage.isEmailErrorDisplayed(), "Email error not displayed");
-    // }
+        Assert.assertTrue(registerPage.isEmailErrorDisplayed(), "Email error not displayed");
+    }
 
-    // @Test(description = "Register with empty password")
-    // public void testRegister_EmptyPassword() {
+    @Test(description = "TC_REGISTER_005: Register with empty password")
+    public void testRegister_EmptyPassword() {
 
-    //     String email = "test" + System.currentTimeMillis() + "@gmail.com";
+        String email = "test" + System.currentTimeMillis() + "@gmail.com";
 
-    //     registerPage.register("Test User", email, null);
+        registerPage.register("Test User", email, null);
 
-    //     Assert.assertTrue(registerPage.isPasswordErrorDisplayed(), "Password error not displayed");
-    // }
+        Assert.assertTrue(registerPage.isPasswordErrorDisplayed(), "Password error not displayed");
+    }
 
-    // @Test(description = "Register with invalid email")
-    // public void testRegister_InvalidEmail() {
+    @Test(description = "TC_REGISTER_006: Register with invalid email")
+    public void testRegister_InvalidEmail() {
 
-    //     registerPage.register("Test User", "invalid-email", "12345678");
+        registerPage.register("Test User", "invalid-email", "12345678");
 
-    //     Assert.assertTrue(registerPage.isEmailErrorDisplayed(), "Invalid email error not displayed");
-    // }
-
-    // @Test(description = "Register with short password")
-    // public void testRegister_ShortPassword() {
-
-    //     String email = "test" + System.currentTimeMillis() + "@gmail.com";
-
-    //     registerPage.register("Test User", email, "123");
-
-    //     Assert.assertTrue(registerPage.isPasswordErrorDisplayed(), "Password length error not displayed");
-    // }
+        Assert.assertTrue(registerPage.isEmailErrorDisplayed(), "Invalid email error not displayed");
+    }
 }

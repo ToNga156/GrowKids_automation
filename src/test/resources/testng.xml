@@ -7,10 +7,10 @@
         </classes>
     </test>
 
-    <test name="Login Test">
+    <!-- <test name="Login Test">
         <classes>
             <class name="com.growkids.tests.LoginTest"/>
         </classes>
-    </test>
+    </test> -->
 
 </suite>

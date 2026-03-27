@@ -36,7 +36,7 @@ public class RegisterPage extends BasePage {
         clickRegister();
     }
 
-        public boolean isNameErrorDisplayed() {
+    public boolean isNameErrorDisplayed() {
         return isDisplayed(nameError);
     }
 

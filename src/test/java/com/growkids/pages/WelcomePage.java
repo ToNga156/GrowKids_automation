@@ -2,11 +2,10 @@ package com.growkids.pages;
 
 import org.openqa.selenium.By;
 
-public class HomePage extends BasePage {
-
+public class WelcomePage extends BasePage { 
     private By loginSuccessMessage = By.id("android:id/message");
+    private By welcomeTitle = By.xpath("//android.widget.TextView[@text='Hello parents 👋']");
     private By okButton = By.id("android:id/button1");
-    private By homeTitle = By.xpath("//android.widget.TextView[@text='Bilingual Learning with your child']");
 
     public boolean isLoginSuccessMessageDisplayed() {
         return isDisplayed(loginSuccessMessage);
@@ -16,7 +15,7 @@ public class HomePage extends BasePage {
         click(okButton);
     }
 
-    public boolean isHomeTitleDisplayed() {
-        return isDisplayed(homeTitle);
+    public boolean isWelcomeTitleDisplayed() {
+        return isDisplayed(welcomeTitle);
     }
 }
