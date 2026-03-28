@@ -13,7 +13,7 @@ public class SetupScheduleTest extends BaseTest {
     public void setupTest() {
         LoginPage loginPage = new LoginPage();
         WelcomePage welcomePage = new WelcomePage();
-        loginPage.enterEmail("Na4@gmail.com");
+        loginPage.enterEmail("Na6@gmail.com");
         loginPage.enterPassword("12345678");
         loginPage.clickLogin();
         loginPage.clickAllowNotificationButton();
